@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TreeItem?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            fx:controller="cn.walking_dead.Main"
+            styleClass="green-theme"
+            xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+       <AnchorPane prefHeight="80.0">
+           <!--onMouseClicked="#listDefault"-->
+           <Label text="后台管理系统" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="20">
+               <effect>
+                   <Reflection bottomOpacity="0.2" fraction="0.5" topOffset="-5.0" />
+               </effect>
+               <font>
+                   <Font name="System Bold" size="26.0" />
+               </font>
+           </Label>
+       </AnchorPane>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.5">
+          <AnchorPane maxWidth="200" minWidth="200" styleClass="dark-gray-theme">
+            <children>
+                <TreeView>
+                    <root>
+                        <TreeItem value="根节点" />
+                    </root>
+
+
+                </TreeView>
+            </children>
+          </AnchorPane>
+          <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="default-theme" vbarPolicy="AS_NEEDED">
+              <StackPane fx:id="mainContainer" minHeight="600" minWidth="1060" styleClass="default-theme">
+                  <padding>
+                      <Insets bottom="5" left="30" right="10" top="10" />
+                  </padding>
+              </StackPane>
+          </ScrollPane>
+      </SplitPane>
+   </center>
+</BorderPane>
