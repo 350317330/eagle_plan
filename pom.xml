@@ -141,6 +141,21 @@
                 <artifactId>hutool-all</artifactId>
                 <version>5.4.0</version>
             </dependency>
+
+           <!-- 图片处理工具-->
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>0.4.14</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>1.7.2</version>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
     <repositories>
