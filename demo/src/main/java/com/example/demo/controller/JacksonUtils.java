@@ -18,60 +18,9 @@ import java.util.Map;
  * @author shisi
  * @date 2020/12/26 10:50
  **/
-public class PlatformJsonUtil {
-
-    private static class Result{
-        private String resultCode;
-        private String resultMessage;
-        private String paramCode;
-        private String paramMessage;
-
-        public String getResultCode() {
-            return resultCode;
-        }
-
-        public void setResultCode(String resultCode) {
-            this.resultCode = resultCode;
-        }
-
-        public String getResultMessage() {
-            return resultMessage;
-        }
-
-        public void setResultMessage(String resultMessage) {
-            this.resultMessage = resultMessage;
-        }
-
-        public String getParamCode() {
-            return paramCode;
-        }
-
-        public void setParamCode(String paramCode) {
-            this.paramCode = paramCode;
-        }
-
-        public String getParamMessage() {
-            return paramMessage;
-        }
-
-        public void setParamMessage(String paramMessage) {
-            this.paramMessage = paramMessage;
-        }
-
-        @Override
-        public String toString() {
-            return "Result{" +
-                    "resultCode='" + resultCode + '\'' +
-                    ", resultMessage='" + resultMessage + '\'' +
-                    ", paramCode='" + paramCode + '\'' +
-                    ", paramMessage='" + paramMessage + '\'' +
-                    '}';
-        }
-    }
+public class JacksonUtils {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final String DEFAULT_ERROR_JSON_STRING =
-        "{\"resultCode\":\"0000499\",\"resultMessage\":\"JSON解析错误\",\"paramCode\":\"resultCode\",\"paramMessage\":\"resultCode\",\"resultData\":\"\"}";
 
     static {
         // 取消默认转换timestamps形式,false使用日期格式转换，true不使用日期转换，结果是时间的数值157113793535
@@ -85,55 +34,59 @@ public class PlatformJsonUtil {
         OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     }
+
     /**
      * 把JAVA对象转换成JSON字符串
-     * @author shisi
-     * @date 2020/12/26 13:18
+     *
      * @param obj JAVA对象
      * @return java.lang.String
+     * @author shisi
+     * @date 2020/12/26 13:18
      */
     public static <T> String toJsonString(T obj) {
         try {
             return OBJECT_MAPPER.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            return DEFAULT_ERROR_JSON_STRING;
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * 把JSON字符串转换成JAVA对象
-     * @author shisi
-     * @date 2020/12/26 13:19
-     * @param str JSON字符串
+     *
+     * @param str   JSON字符串
      * @param clazz JAVA字节码
      * @return T
+     * @author shisi
+     * @date 2020/12/26 13:19
      */
     public static <T> T parse(String str, Class<T> clazz) {
         try {
             return OBJECT_MAPPER.readValue(str, clazz);
         } catch (IOException e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
     /**
-     *  把JSON字符串转换成MAP结构
-     * @author shisi
-     * @date 2020/12/26 13:20
+     * 把JSON字符串转换成MAP结构
+     *
      * @param str
      * @return java.util.Map
+     * @author shisi
+     * @date 2020/12/26 13:20
      */
     @SuppressWarnings("all")
-    public static Map<String,Object> parseToMap(String str) {
+    public static Map<String, Object> parseToMap(String str) {
         try {
             return OBJECT_MAPPER.readValue(str, Map.class);
         } catch (IOException e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
-    public static void main(String[] args) throws Exception{
-        PersonModel.Person.Builder builder=PersonModel.Person.newBuilder();
+    public static void main(String[] args) throws Exception {
+        PersonModel.Person.Builder builder = PersonModel.Person.newBuilder();
         builder.setId(1);
         builder.setName("shisi");
         builder.setEmail("shisixiangwq@qq.com");
@@ -152,15 +105,11 @@ public class PlatformJsonUtil {
         System.out.println("after name:" + p2.getName());
         System.out.println("after email:" + p2.getEmail());
 
-        String json  = JsonFormat.printToString(person);
+        String json = JsonFormat.printToString(person);
         System.out.println(json);
-        PersonModel.Person.Builder builder1=PersonModel.Person.newBuilder();
-        JsonFormat.merge(json,builder1);
+        PersonModel.Person.Builder builder1 = PersonModel.Person.newBuilder();
+        JsonFormat.merge(json, builder1);
         System.out.println(builder1);
-
-        System.out.println("==================================");
-        Result parse = PlatformJsonUtil.parse(DEFAULT_ERROR_JSON_STRING, Result.class);
-        System.out.println(parse);
     }
 
 }
