@@ -1,8 +1,9 @@
-package com.example.demo.controller;
+package com.example.demo.utils;
 
 import com.example.demo.PersonModel;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -10,6 +11,7 @@ import com.googlecode.protobuf.format.JsonFormat;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,7 +45,7 @@ public class JacksonUtils {
      * @author shisi
      * @date 2020/12/26 13:18
      */
-    public static <T> String toJsonString(T obj) {
+    public static <T> String toJson(T obj) {
         try {
             return OBJECT_MAPPER.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
@@ -71,18 +73,22 @@ public class JacksonUtils {
     /**
      * 把JSON字符串转换成MAP结构
      *
-     * @param str
-     * @return java.util.Map
+     * @param json
+     * @return java.util.Map<String, Object>
      * @author shisi
      * @date 2020/12/26 13:20
      */
-    @SuppressWarnings("all")
-    public static Map<String, Object> parseToMap(String str) {
+    public static Map<String, Object> parseToMap(String json) {
         try {
-            return OBJECT_MAPPER.readValue(str, Map.class);
+            return OBJECT_MAPPER.readValue(json, new TypeReference<Map<String, Object>>() {
+            });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static ObjectMapper getInstance(){
+        return OBJECT_MAPPER;
     }
 
     public static void main(String[] args) throws Exception {
@@ -110,6 +116,11 @@ public class JacksonUtils {
         PersonModel.Person.Builder builder1 = PersonModel.Person.newBuilder();
         JsonFormat.merge(json, builder1);
         System.out.println(builder1);
+
+
+        Map<String, Object> map = parseToMap(json);
+        System.out.println(map);
+
     }
 
 }

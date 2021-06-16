@@ -15,8 +15,6 @@ import java.lang.reflect.Method;
 
 /**
  * 获取地址类
- *
- * @author yiyue
  */
 public class AddressUtils {
     private static final Logger log = LoggerFactory.getLogger(AddressUtils.class);
