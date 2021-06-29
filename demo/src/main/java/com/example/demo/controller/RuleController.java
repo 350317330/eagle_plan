@@ -1,10 +1,6 @@
 package com.example.demo.controller;
 
-import com.bstek.urule.Utils;
-import com.bstek.urule.runtime.KnowledgePackage;
-import com.bstek.urule.runtime.KnowledgeSession;
-import com.bstek.urule.runtime.KnowledgeSessionFactory;
-import com.bstek.urule.runtime.service.KnowledgeService;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,19 +16,8 @@ import java.util.Map;
 @RestController
 public class RuleController {
     @RequestMapping("rule")
-    public String rule(@RequestParam String data) throws IOException {
-        //创建一个KnowledgeSession对象
-        KnowledgeService knowledgeService = (KnowledgeService) Utils.getApplicationContext().getBean(KnowledgeService.BEAN_ID);
-        KnowledgePackage knowledgePackage = knowledgeService.getKnowledge("test/test1");
-        KnowledgeSession session = KnowledgeSessionFactory.newKnowledgeSession(knowledgePackage);
+    public void rule(@RequestParam String data) throws IOException {
 
-        Integer integer = Integer.valueOf(data);
-        Map<String, Object> param = new HashMap();
-        param.put("var", integer);
-        session.fireRules(param);
-
-        Integer result = (Integer) session.getParameter("var");
-        return String.valueOf(result);
     }
 
 }

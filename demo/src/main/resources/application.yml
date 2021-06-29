@@ -12,13 +12,5 @@ spring:
       jdbc-url: jdbc:mysql://47.115.177.122:3317/rule?useUnicode=true&characterEncoding=utf-8
       username: root
       password: root
-  jackson:
-    default-property-inclusion: non_null
 logging:
   config: classpath:logback-spring.xml
-
-urule:
-  repository:
-    dir: D:\personal\eagle_plan\demo\src\main\resources\rule
-    databasetype: mysql
-    datasourcename: datasource

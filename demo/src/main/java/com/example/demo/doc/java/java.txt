@@ -1,0 +1,4 @@
+private static final Object PRESENT = new Object();
+HashSet其实就是一个HashMap put(key,PRESENT);
+key为当前add(E)进来的元素
+LinkedHashSet是LinkedHashMap
