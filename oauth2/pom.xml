@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>cn.dream</groupId>
+		<artifactId>eagle_plan</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.example</groupId>
+	<artifactId>oauth2</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>oauth2</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-geojson</artifactId>
+			<version>19.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+
+	</build>
+
+	<repositories>
+		<repository>
+			<id>maven-ali</id>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-snapshots</id>
+			<url>http://repo.spring.io/libs-snapshot</url>
+		</repository>
+
+		<repository>
+
+			<id>osgeo</id>
+
+			<name>OSGeo Release Repository</name>
+
+			<url>https://repo.osgeo.org/repository/release/</url>
+
+			<snapshots><enabled>false</enabled></snapshots>
+
+			<releases><enabled>true</enabled></releases>
+
+		</repository>
+
+		<repository>
+
+			<id>osgeo-snapshot</id>
+
+			<name>OSGeo Snapshot Repository</name>
+
+			<url>https://repo.osgeo.org/repository/snapshot/</url>
+
+			<snapshots><enabled>true</enabled></snapshots>
+
+			<releases><enabled>false</enabled></releases>
+
+		</repository>
+	</repositories>
+
+
+</project>

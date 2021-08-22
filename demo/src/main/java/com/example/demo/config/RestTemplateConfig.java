@@ -12,7 +12,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -52,6 +51,7 @@ public class RestTemplateConfig {
                 .setConnectionRequestTimeout(1000) //从连接池中获取连接的超时时间
                 .build();
         return HttpClientBuilder.create()
+                .setUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.16 Safari/537.36")
                 //.setRetryHandler(new DefaultHttpRequestRetryHandler(3,true)) 重试次数
                 .setKeepAliveStrategy(DefaultConnectionKeepAliveStrategy.INSTANCE) //设置长连接保持策略
                 .setDefaultRequestConfig(requestConfig)
@@ -77,15 +77,5 @@ public class RestTemplateConfig {
         }
         converterList.add(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
     }
-
-    public static HttpHeaders getDefaultHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.16 Safari/537.36");
-        headers.add("Accept-Encoding", "gzip,deflate");
-        headers.add("Accept-Language", "zh-CN");
-        headers.add("Connection", "Keep-Alive");
-        return headers;
-    }
-
 
 }

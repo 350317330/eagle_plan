@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration  scan="true">
     <contextName>manager_system</contextName>
-    <property name="LOG_HOME" value="${user.dir}/demo/log/" />
+    <property name="LOG_HOME" value="${user.dir}/log/" />
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

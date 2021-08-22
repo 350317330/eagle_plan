@@ -1,0 +1,91 @@
+{
+	"version": 8,
+	"name": "vue-map",
+	"metadata": {
+		"mapbox:type": "default"
+	},
+	"center": [101.4820601903125, 37.721749532706085],
+	"zoom": 2.795844237188305,
+	"bearing": 0,
+	"pitch": 0,
+	"sources": {
+		"tianditu": {
+			"type": "raster",
+			"tiles": [
+				"http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=2d8eca459ee67a4b8d1f281791d4f09f",
+				"http://t1.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=2d8eca459ee67a4b8d1f281791d4f09f",
+				"http://t2.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=2d8eca459ee67a4b8d1f281791d4f09f",
+				"http://t4.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=2d8eca459ee67a4b8d1f281791d4f09f",
+				"http://t5.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=2d8eca459ee67a4b8d1f281791d4f09f",
+				"http://t6.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=2d8eca459ee67a4b8d1f281791d4f09f",
+				"http://t3.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=2d8eca459ee67a4b8d1f281791d4f09f ",
+				"http://t7.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=2d8eca459ee67a4b8d1f281791d4f09f"
+			],
+			"tileSize": 256
+		},
+		"district": {
+			"type": "geojson",
+			"data": "/static/gis/data/qx_84.json"
+		},
+		"border": {
+			"type": "geojson",
+			"data": "/static/gis/data/border.json"
+		}		
+	},
+	"glyphs": "/static/gis/offlinemap/fonts/{fontstack}/{range}.pbf",
+	"layers": [
+		{
+			"id": "district",
+			"type": "fill",
+			"source": "district",
+			"layout": {},
+			"paint": {
+				"fill-color": "rgb(0,18,17)",
+				"fill-opacity": 0.2
+			}
+		},
+		{
+			"id": "district-borders",
+			"type": "line",
+			"source": "district",
+			"layout": {},
+			"paint": {
+				"line-color": "#fff",
+				"line-width": 1.71
+			}
+		},
+		{
+			"id": "borders",
+			"type": "line",
+			"source": "border",
+			"layout": {},
+			"paint": {
+				"line-color": "#00D8B2",
+				"line-width": 3
+			}
+		},
+		{
+			"id": "district-labels",
+			"type": "symbol",
+			"source": "district",
+			"layout": {
+				"text-field": ["get", "JDNAME"],
+				"text-offset": [0, 1.25],
+				"text-anchor": "top",
+				"text-size": 14
+			},
+			"paint": {
+				"text-color": "#ffffff",
+				"text-halo-width": 2,
+				"text-halo-blur": 0,
+				"text-halo-color": "#0D2341"
+			}
+		}
+	],
+	"created": "2020-02-19T10:24:27.291Z",
+	"modified": "2020-02-19T10:41:29.439Z",
+	"id": "ck6t66b9m0ekp1ioboifd3o0k",
+	"owner": "jimwei",
+	"visibility": "private",
+	"draft": false
+}
