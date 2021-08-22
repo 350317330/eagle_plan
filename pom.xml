@@ -14,6 +14,7 @@
         <module>client</module>
         <module>demo</module>
         <module>oauth2</module>
+        <module>postgis</module>
     </modules>
 
     <!--统一版本控制-->
