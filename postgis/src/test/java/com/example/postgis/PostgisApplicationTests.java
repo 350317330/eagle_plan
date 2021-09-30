@@ -3,10 +3,12 @@ package com.example.postgis;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.dream.PostgisApplication;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.io.WKTReader;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,29 +18,23 @@ import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GeodeticCurve;
 import org.gavaghan.geodesy.GlobalCoordinates;
 import org.geotools.data.DataUtilities;
-import org.geotools.data.collection.ListFeatureCollection;
-import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.geojson.feature.FeatureJSON;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.junit.jupiter.api.Test;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import org.opengis.geometry.coordinate.LineString;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.DigestUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.StringWriter;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SpringBootTest
-class PostgisApplicationTests {
+@SpringBootTest(classes = PostgisApplication.class)
+public class PostgisApplicationTests {
 
 
     @Test
@@ -55,7 +51,7 @@ class PostgisApplicationTests {
         WKTReader reader = new WKTReader( geometryFactory );
         FeatureJSON fjson = new FeatureJSON();
         LineString lineString = (LineString)reader.read("LINESTRING (254058.76074485347 475001.2186020431, 255351.04293761664 474966.9279243938)");
-// 按照TYPE中声明的顺序为属性赋值就可以
+        // 按照TYPE中声明的顺序为属性赋值就可以
         featureBuilder.add(lineString);
         featureBuilder.add("123456");
         featureBuilder.add(2);
@@ -70,10 +66,10 @@ class PostgisApplicationTests {
     @Test
     public void test2()throws Exception{
         //Thumbnails.of("C:\\Users\\shisi\\Desktop\\理赔照片\\rice\\1\\捕获.PNG").scale(1f).outputQuality(0.5f).toFile("C:\\Users\\shisi\\Desktop\\理赔照片\\rice\\1\\test1.PNG");
-        String s = DigestUtils.md5DigestAsHex(new FileInputStream("C:\\Users\\shisi\\Desktop\\理赔照片\\rice\\1\\test1.PNG"));
-        System.out.println(s);
-        String s1 = DigestUtils.md5DigestAsHex(new FileInputStream("C:\\Users\\shisi\\Desktop\\理赔照片\\rice\\1\\test1.PNG"));
-        System.out.println(s1);
+        //String s = DigestUtils.md5DigestAsHex(new FileInputStream("C:\\Users\\shisi\\Desktop\\理赔照片\\rice\\1\\test1.PNG"));
+        //System.out.println(s);
+        //String s1 = DigestUtils.md5DigestAsHex(new FileInputStream("C:\\Users\\shisi\\Desktop\\理赔照片\\rice\\1\\test1.PNG"));
+        //System.out.println(s1);
 
         GlobalCoordinates source = new GlobalCoordinates(29.490295, 106.486654);
         GlobalCoordinates target = new GlobalCoordinates(29.615467, 106.581515);

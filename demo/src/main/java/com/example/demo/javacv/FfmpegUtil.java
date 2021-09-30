@@ -1,21 +1,18 @@
 package com.example.demo.javacv;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.symmetric.AES;
 import lombok.extern.slf4j.Slf4j;
 import org.bytedeco.ffmpeg.global.avcodec;
-import org.bytedeco.ffmpeg.global.avutil;
-import org.bytedeco.javacv.*;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.FFmpegFrameRecorder;
+import org.bytedeco.javacv.Frame;
 
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,18 +34,18 @@ public class FfmpegUtil implements Closeable {
     private FFmpegFrameGrabber grabber;
 
     public FfmpegUtil from(String path) throws Exception {
-        log.info("from-{}", DateUtil.now());
+        //log.info("from-{}", DateUtil.now());
         grabber = FFmpegFrameGrabber.createDefault(path);
         grabber.setOption("safe", "0");
         grabber.setFormat("concat");
         grabber.start();
 
-        log.info("from-{}", DateUtil.now());
+        //log.info("from-{}", DateUtil.now());
         return this;
     }
 
     public FfmpegUtil to(String mp4SavePath) throws Exception {
-        log.info("to-{}", DateUtil.now());
+        //log.info("to-{}", DateUtil.now());
         recorder = FFmpegFrameRecorder.createDefault(mp4SavePath, grabber.getImageWidth(), grabber.getImageHeight());
         recorder.setFormat("hls");
         recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
@@ -62,17 +59,17 @@ public class FfmpegUtil implements Closeable {
         recorder.setOption("preset", "fast");
 //        recorder.setOption("force_key_frames", StrUtil.format("\"expr:gte(t,n_forced*{})\"", RANGE));
         recorder.start();
-        log.info("to-{}", DateUtil.now());
+        //log.info("to-{}", DateUtil.now());
         return this;
     }
 
     public FfmpegUtil go() throws Exception {
-        log.info("go-{}", DateUtil.now());
+        //log.info("go-{}", DateUtil.now());
         Frame imageFrame = null;
         while ((imageFrame = grabber.grabImage()) != null) {
             recorder.record(imageFrame);
         }
-        log.info("go-{}", DateUtil.now());
+        //log.info("go-{}", DateUtil.now());
         return this;
     }
 

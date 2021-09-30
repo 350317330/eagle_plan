@@ -25,6 +25,40 @@ public class JsonTest {
 
 
     @Test
+    public void test2()throws Exception{
+        FileInputStream in = new FileInputStream("C:\\Users\\admin\\Desktop\\GIS_JSON数据\\补贴田块.json");
+        FileInputStream in1 = new FileInputStream("C:\\Users\\admin\\Desktop\\GIS_JSON数据\\wheat.json");
+        String plot = IOUtils.toString(in, Charset.defaultCharset());
+        String wheat = IOUtils.toString(in1, Charset.defaultCharset());
+
+
+        JSONObject plotJson = JSONObject.parseObject(plot);
+        JSONArray plotArray = (JSONArray) plotJson.get("features");
+
+
+        JSONObject wheatJson = JSONObject.parseObject(wheat);
+        JSONArray wheatArray = (JSONArray) wheatJson.get("features");
+
+        plotArray.forEach(e->{
+            JSONObject obj= (JSONObject) e;
+            JSONObject properties = (JSONObject) obj.get("properties");
+            System.out.println(properties);
+            return ;
+        });
+
+        wheatArray.forEach(e->{
+            JSONObject obj= (JSONObject) e;
+            JSONObject properties = (JSONObject) obj.get("properties");
+            System.out.println(properties);
+            return ;
+        });
+
+
+
+    }
+
+
+    @Test
     public void test()throws Exception{
         FileInputStream in = new FileInputStream("D:\\project\\brain\\src\\static\\gis\\data\\butie2_points.json");
         String result = IOUtils.toString(in, Charset.defaultCharset());
