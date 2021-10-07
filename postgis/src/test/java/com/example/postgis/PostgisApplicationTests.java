@@ -6,10 +6,10 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.dream.PostgisApplication;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.io.WKTReader;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,24 +18,105 @@ import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GeodeticCurve;
 import org.gavaghan.geodesy.GlobalCoordinates;
 import org.geotools.data.DataUtilities;
+import org.geotools.feature.FeatureCollection;
+import org.geotools.feature.FeatureIterator;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
+import org.geotools.feature.simple.SimpleFeatureImpl;
+import org.geotools.feature.simple.SimpleFeatureTypeImpl;
+import org.geotools.geojson.GeoJSONUtil;
 import org.geotools.geojson.feature.FeatureJSON;
+import org.geotools.geojson.geom.GeometryJSON;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.junit.jupiter.api.Test;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.io.WKTReader;
+import org.opengis.feature.Feature;
+import org.opengis.feature.Property;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.FeatureType;
+import org.opengis.geometry.coordinate.LineString;
+import org.opengis.geometry.coordinate.Polygon;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.FileCopyUtils;
 
-import java.io.File;
-import java.io.StringWriter;
+import java.io.*;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest(classes = PostgisApplication.class)
 public class PostgisApplicationTests {
 
+
+    @Test
+    public void test7()throws Exception{
+
+
+
+        InputStream in = new FileInputStream("D:\\Java\\project\\eagle_plan\\postgis\\src\\main\\resources\\gis\\data\\paddy.json");
+
+
+        FeatureJSON featureJSON = new FeatureJSON( new GeometryJSON(20));
+
+       // FeatureCollection<SimpleFeatureType, SimpleFeatureImpl> featureCollection = featureJSON.readFeatureCollection(in);
+        //featureJSON.writeFeatureCollection(featureCollection,System.out);  // 控制台输出和原始geojson一致
+        FeatureCollection featureCollection = featureJSON.readFeatureCollection(in);
+
+        String s = featureJSON.toString(featureCollection);
+
+        System.out.println(s);
+
+    }
+
+    @Test
+    public void test6()throws Exception{
+
+        String s = FileCopyUtils.copyToString(new FileReader("D:\\Java\\project\\eagle_plan\\postgis\\src\\main\\resources\\gis\\data\\paddy.json"));
+
+        ObjectMapper mapper=new ObjectMapper();
+        mapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+        Map<String,Object> map = mapper.readValue(s, Map.class);
+        List<Map> list = (List<Map>) map.get("features");
+        for(Map map1:list){
+            Object geometry = map1.get("geometry");
+            String s1 = mapper.writeValueAsString(geometry);
+            GeometryJSON gjson = new GeometryJSON(20);
+            Reader reader = new StringReader(s1);
+            Geometry geometry1 = gjson.read(reader);
+            String wkt = geometry1.toText();
+            System.out.println(wkt);
+        }
+        System.out.println(map);
+    }
+
+    @Test
+    public void test1()throws Exception{
+        String wktPoint = "POINT(11.11111 12.22222)";
+        WKTReader reader = new WKTReader();
+        Geometry geometry = reader.read(wktPoint);
+        StringWriter writer = new StringWriter();
+        GeometryJSON g = new GeometryJSON();
+        g.write(geometry, writer);
+        String result = writer.toString();
+        System.out.println("GeoJson结果=" + result);
+
+    }
+
+    @Test
+    public void test3()throws Exception{
+        String geoJson = "{\"type\":\"Point\",\"coordinates\":[11.1111,12.2222]}";
+        GeometryJSON gjson = new GeometryJSON();
+        Reader reader = new StringReader(geoJson);
+        Geometry geometry = gjson.read(reader);
+        String wkt = geometry.toText();
+        System.out.println("wkt结果=" + wkt);
+
+    }
 
     @Test
     public void test()throws Exception{
@@ -49,10 +130,11 @@ public class PostgisApplicationTests {
         SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(TYPE);
         GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
         WKTReader reader = new WKTReader( geometryFactory );
-        FeatureJSON fjson = new FeatureJSON();
-        LineString lineString = (LineString)reader.read("LINESTRING (254058.76074485347 475001.2186020431, 255351.04293761664 474966.9279243938)");
+        FeatureJSON fjson = new FeatureJSON(new GeometryJSON(20));
+        Geometry geometry = reader.read("LINESTRING (254058.76074485347 475001.2186020431, 255351.04293761664 474966.9279243938)");
+
         // 按照TYPE中声明的顺序为属性赋值就可以
-        featureBuilder.add(lineString);
+        featureBuilder.add(geometry);
         featureBuilder.add("123456");
         featureBuilder.add(2);
         featureBuilder.add(0);
